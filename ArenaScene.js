@@ -99,6 +99,7 @@ class ArenaScene extends Phaser.Scene {
         this.load.audio('grenadelauncher_reload', 'tf2arenaimages/grenadelauncher_reload.mp3');
         this.load.audio('grenadelauncher_drum_open', 'tf2arenaimages/grenadelauncher_drum_open.mp3');
         this.load.audio('grenadelauncher_drum_close', 'tf2arenaimages/grenadelauncher_drum_close.mp3');
+        this.load.audio('stickybomblauncher_shoot', 'tf2arenaimages/stickybomblauncher_shoot.mp3');
         this.load.audio('stickybomblauncher_reload', 'tf2arenaimages/stickybomblauncher_reload.mp3');
         this.load.audio('explode', 'tf2arenaimages/explode.mp3');
     }
@@ -125,11 +126,13 @@ class ArenaScene extends Phaser.Scene {
         var grenadelauncher_drum_open = this.sound.add('grenadelauncher_drum_open');
         var grenadelauncher_drum_close = this.sound.add('grenadelauncher_drum_close');
         var explode = this.sound.add('explode');
+        var stickybomblauncher_shoot = this.sound.add('stickybomblauncher_shoot');
         var stickybomblauncher_reload = this.sound.add('stickybomblauncher_reload');
         
         bgmusic.play(gameState.loopSound);
         gameState.input=this.input;
         gameState.mouse=this.input.mousePointer;
+        this.input.mouse.disableContextMenu();
         gameState.cursors = this.input.keyboard.createCursorKeys();
         gameState.keys = this.input.keyboard.addKeys('W,S,A,D,R,SPACE,SHIFT,ONE,TWO');
         this.add.image(0,0,'arenabg').setOrigin(0,0);
@@ -782,6 +785,18 @@ class ArenaScene extends Phaser.Scene {
                 }
             }
             else if(heroclass === 'demoman'){
+                this.input.on('pointerdown', function (pointer) {
+                    if (pointer.rightButtonDown()){
+                        gameState.pointerdown = true;
+                        gameState.herosecondaryammo.getChildren().forEach(ammo => {
+                            ammo.destroy();
+                            explode.play();
+                        });
+                    }
+                    else{
+                        gameState.pointerdown = false;
+                    }
+                });
                 if(gameState.weaponselect === 1){
                     if(gameState.mouse.isDown && gameState.primaryammo > 0 && gameState.heroprimarycooldown <= 0 && gameState.reloading === false){
                         grenadelauncher_shoot.play();
@@ -863,8 +878,8 @@ class ArenaScene extends Phaser.Scene {
                     }
                 }
                 else {
-                    if(gameState.mouse.isDown && gameState.secondaryammo > 0 && gameState.heroprimarycooldown <= 0 && gameState.reloading === false){
-                        grenadelauncher_shoot.play();
+                    if(gameState.mouse.isDown && gameState.secondaryammo > 0 && gameState.heroprimarycooldown <= 0 && gameState.reloading === false&& gameState.pointerdown === false){
+                        stickybomblauncher_shoot.play();
                         console.log(gameState.herosecondaryammo.getChildren().length);
                         gameState.heroprimarycooldown = 30;
                         gameState.secondaryammo -= 1;
@@ -962,6 +977,6 @@ class ArenaScene extends Phaser.Scene {
     update(){
         gameState.heromovement(`${gameState.class}`,this);
         this.physics.add.collider(gameState.hero, gameState.invisibleplatform);
-        //console.log(gameState.input.x,gameState.input.y)
+        console.log(gameState.input.x,gameState.input.y)
     }
 }
