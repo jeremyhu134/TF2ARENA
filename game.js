@@ -10,8 +10,8 @@ const config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 1000 },
-            enableBody: true,
-            debug: true
+            enableBody: true
+            //debug: true
         }
     },
     scene:[MenuScene,ShopScene,ArenaScene,ChooseHeroScene],
