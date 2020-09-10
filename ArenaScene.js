@@ -10,6 +10,7 @@ class ChooseHeroScene extends Phaser.Scene {
         this.load.image('selectionboxes','tf2arenaimages/selectionboxes.png');
         //classes
         this.load.spritesheet('redscout','tf2arenaimages/redscout.png',{frameWidth: 33,frameHeight:53});
+        this.load.spritesheet('redpyro','tf2arenaimages/redpyro.png',{frameWidth: 48,frameHeight:70});
         this.load.spritesheet('redheavy','tf2arenaimages/redheavy.png',{frameWidth: 42,frameHeight:75});
         this.load.spritesheet('reddemoman','tf2arenaimages/reddemoman.png',{frameWidth: 36,frameHeight:65});
         this.load.spritesheet('redspy','tf2arenaimages/redspy.png',{frameWidth: 36,frameHeight:75});
@@ -19,18 +20,24 @@ class ChooseHeroScene extends Phaser.Scene {
         this.add.image(0,0,'menubg').setOrigin(0,0);
         this.add.image(25,10,'selectionboxes').setOrigin(0,0);
         var selectscout = this.add.image(50,15,'redscout').setOrigin(0,0).setInteractive().setScale(1.7);
+        var selectpyro = this.add.image(215,15,'redpyro').setOrigin(0,0).setInteractive().setScale(1.2);
         var selectdemoman = this.add.image(300,15,'reddemoman').setOrigin(0,0).setInteractive().setScale(1.3);
         var selectheavy = this.add.image(385,15,'redheavy').setOrigin(0,0).setInteractive().setScale(1.1);
         var selectspy = this.add.image(715,15,'redspy').setOrigin(0,0).setInteractive().setScale(1.2);
         var back = this.add.image(20,450,'back').setOrigin(0,0).setInteractive();
         var check = this.add.image(720,430,'checkicon').setOrigin(0,0).setInteractive();
         
-        var selectedhero = this.add.image(350,200,'redscout').setOrigin(0,0).setInteractive().setScale(3);
+        var selectedhero = this.add.image(350,200,'redscout').setOrigin(0,0).setInteractive().setScale(3.8);
         gameState.class = 'scout';
         selectscout.on('pointerover', () => {
             gameState.class = 'scout';
             selectedhero.destroy();
-            selectedhero = this.add.image(350,200,'redscout').setOrigin(0,0).setInteractive().setScale(3);
+            selectedhero = this.add.image(350,200,'redscout').setOrigin(0,0).setInteractive().setScale(3.8);
+		});
+        selectpyro.on('pointerover', () => {
+            gameState.class = 'pyro';
+            selectedhero.destroy();
+            selectedhero = this.add.image(350,200,'redpyro').setOrigin(0,0).setInteractive().setScale(3);
 		});
         selectdemoman.on('pointerover', () => {
             gameState.class = 'demoman';
@@ -81,11 +88,14 @@ class ArenaScene extends Phaser.Scene {
         this.load.image('infoicon','tf2arenaimages/infoicon.png');
         this.load.image('info','tf2arenaimages/info.png');
         this.load.spritesheet('redpill','tf2arenaimages/redpill.png',{frameWidth: 30,frameHeight:30});
+        this.load.image('fire','tf2arenaimages/fire.png');
         this.load.image('bullet','tf2arenaimages/bullet.png');
         this.load.image('redstickybomb','tf2arenaimages/redstickybomb.png');
         //classes
         this.load.spritesheet('redscout','tf2arenaimages/redscout.png',{frameWidth: 33,frameHeight:53});
         this.load.spritesheet('redscout2','tf2arenaimages/redscout2.png',{frameWidth: 33,frameHeight:53});
+        this.load.spritesheet('redpyro','tf2arenaimages/redpyro.png',{frameWidth: 48,frameHeight:70});
+        this.load.spritesheet('redpyro2','tf2arenaimages/redpyro2.png',{frameWidth: 48,frameHeight:70});
         this.load.spritesheet('redheavy','tf2arenaimages/redheavy.png',{frameWidth: 42,frameHeight:75});
         this.load.spritesheet('redheavy2','tf2arenaimages/redheavy2.png',{frameWidth: 42,frameHeight:75});
         this.load.spritesheet('reddemoman','tf2arenaimages/reddemoman.png',{frameWidth: 36,frameHeight:65});
@@ -98,10 +108,7 @@ class ArenaScene extends Phaser.Scene {
         this.load.audio('pistol_shoot', 'tf2arenaimages/pistol_shoot.mp3');
         this.load.audio('pistol_reload', 'tf2arenaimages/pistol_reload.mp3');
         
-        this.load.audio('minigun_shoot', 'tf2arenaimages/minigun_shoot.mp3');
-        this.load.audio('minigun_empty', 'tf2arenaimages/minigun_empty.mp3');
-        this.load.audio('shotgun_shoot', 'tf2arenaimages/shotgun_shoot.mp3');
-        this.load.audio('shotgun_reload', 'tf2arenaimages/shotgun_reload.mp3');
+        this.load.audio('flamethrower_shoot', 'tf2arenaimages/flamethrower_shoot.mp3');
         
         this.load.audio('grenadelauncher_shoot', 'tf2arenaimages/grenadelauncher_shoot.mp3');
         this.load.audio('grenadelauncher_reload', 'tf2arenaimages/grenadelauncher_reload.mp3');
@@ -110,6 +117,11 @@ class ArenaScene extends Phaser.Scene {
         this.load.audio('stickybomblauncher_shoot', 'tf2arenaimages/stickybomblauncher_shoot.mp3');
         this.load.audio('stickybomblauncher_reload', 'tf2arenaimages/stickybomblauncher_reload.mp3');
         this.load.audio('explode', 'tf2arenaimages/explode.mp3');
+        
+        this.load.audio('minigun_shoot', 'tf2arenaimages/minigun_shoot.mp3');
+        this.load.audio('minigun_empty', 'tf2arenaimages/minigun_empty.mp3');
+        this.load.audio('shotgun_shoot', 'tf2arenaimages/shotgun_shoot.mp3');
+        this.load.audio('shotgun_reload', 'tf2arenaimages/shotgun_reload.mp3');
         
         this.load.audio('revolver_shoot', 'tf2arenaimages/revolver_shoot.mp3');
         this.load.audio('revolver_reload', 'tf2arenaimages/revolver_reload.mp3');
@@ -142,6 +154,8 @@ class ArenaScene extends Phaser.Scene {
         //spy audio
         var revolver_shoot = this.sound.add('revolver_shoot');
         var revolver_reload = this.sound.add('revolver_reload');
+        //pyro audio
+        var flamethrower_shoot = this.sound.add('flamethrower_shoot');
         
         bgmusic.play(gameState.loopSound);
         gameState.input=this.input;
@@ -255,6 +269,44 @@ class ArenaScene extends Phaser.Scene {
                     frames:scene.anims.generateFrameNames('redheavy2',{start: 6,end: 6})
                 });
             }
+            else if(heroclass === 'pyro'){
+                scene.anims.create({
+                    key: 'pyroidle',
+                    repeat: -1,
+                    frameRate: 3,
+                    frames:scene.anims.generateFrameNames('redpyro',{start: 0,end: 1})
+                });
+                scene.anims.create({
+                    key: 'pyrojump',
+                    repeat: -1,
+                    frameRate: 20,
+                    frames:scene.anims.generateFrameNames('redpyro',{start: 2,end: 2})
+                });
+                scene.anims.create({
+                    key: 'pyrorun',
+                    repeat: -1,
+                    frameRate: 15,
+                    frames:scene.anims.generateFrameNames('redpyro',{start: 3,end: 6})
+                });
+                scene.anims.create({
+                    key: 'pyroidle2',
+                    repeat: -1,
+                    frameRate: 3,
+                    frames:scene.anims.generateFrameNames('redpyro2',{start: 0,end: 1})
+                });
+                scene.anims.create({
+                    key: 'pyrojump2',
+                    repeat: -1,
+                    frameRate: 20,
+                    frames:scene.anims.generateFrameNames('redpyro2',{start: 2,end: 2})
+                });
+                scene.anims.create({
+                    key: 'pyrorun2',
+                    repeat: -1,
+                    frameRate: 15,
+                    frames:scene.anims.generateFrameNames('redpyro2',{start: 3,end: 6})
+                });
+            }
             else if(heroclass === 'demoman'){
                 scene.anims.create({
                     key: 'demomanidle',
@@ -343,6 +395,26 @@ class ArenaScene extends Phaser.Scene {
                     timeScale: 1,
                     repeat: -1
                 }); 
+                scene.time.addEvent({
+                    delay: 1,
+                    callback: ()=>{
+                        gameState.heroprimarycooldown -= 1;
+                    },  
+                    startAt: 0,
+                    timeScale: 1,
+                    repeat: -1
+                }); 
+            }
+            else if(heroclass === 'pyro'){
+                gameState.maxprimaryammo = 300;
+                gameState.maxsecondaryammo = 6;
+                gameState.primaryammo = 300;
+                gameState.secondaryammo = 6;
+                gameState.health = 175;
+                gameState.hero = scene.physics.add.sprite(100,100,'redpyro');
+                gameState.hero.setSize(30,70);
+                gameState.hero.body.offset.x = 0;
+                gameState.heroprimarycooldown = 0;
                 scene.time.addEvent({
                     delay: 1,
                     callback: ()=>{
@@ -451,6 +523,16 @@ class ArenaScene extends Phaser.Scene {
                             startAt: 0,
                             timeScale: 1
                         }); 
+                    },  
+                    startAt: 0,
+                    timeScale: 1
+                }); 
+            }
+            function fireaction(fire, scene){
+                scene.time.addEvent({
+                    delay: 450,
+                    callback: ()=>{
+                        fire.destroy();
                     },  
                     startAt: 0,
                     timeScale: 1
@@ -647,6 +729,146 @@ class ArenaScene extends Phaser.Scene {
                         gameState.jumping = false;
                         gameState.jumpcount = 0;
                         gameState.jumpcooldown = 10;
+                    }
+                }
+            }
+            else if(heroclass === 'pyro'){
+                if(gameState.weaponselect == 1){
+                    if(gameState.mouse.isDown && gameState.primaryammo > 0 && gameState.heroprimarycooldown <= 0 && gameState.reloading === false){
+                        flamethrower_shoot.resume();
+                        gameState.heroprimarycooldown = 2;
+                        gameState.rando = Math.ceil(Math.random()*2);
+                        gameState.primaryammo -= 1;
+                        if(!flamethrower_shoot.isPlaying){
+                            flamethrower_shoot.play();
+                        }
+                        if(gameState.input.x > gameState.hero.x){
+                            var selected = gameState.heroprimaryammo = scene.physics.add.sprite(gameState.hero.x+35,gameState.hero.y+8,'fire').setGravityY(-1000);
+                            fireaction(selected, scene);
+                        }
+                        else if(gameState.input.x < gameState.hero.x){
+                            var selected = gameState.heroprimaryammo = scene.physics.add.sprite(gameState.hero.x-23,gameState.hero.y+8,'fire').setGravityY(-1000);
+                            fireaction(selected,scene);
+                        }
+                        scene.physics.moveTo(gameState.heroprimaryammo,gameState.input.x, gameState.input.y,500); gameState.angle=Phaser.Math.Angle.Between(gameState.heroprimaryammo.x,gameState.heroprimaryammo.y,gameState.input.x,gameState.input.
+                        y);
+                        gameState.heroprimaryammo.setRotation(gameState.angle);
+                        scene.physics.add.overlap(gameState.heroprimaryammo, gameState.invisibleplatform,(ammo,platform)=>{
+                            ammo.destroy();
+                        });  
+                    }
+                    else if (gameState.primaryammo <= 0){
+                        flamethrower_shoot.pause();
+                    }
+                    else if (!gameState.mouse.isDown){
+                        flamethrower_shoot.pause();
+                    }
+                    if(gameState.keys.W.isDown && gameState.hero.body.touching.down && gameState.shooting === false){
+                        gameState.jumping = true;
+                        gameState.hero.setVelocityY(-350);
+                    }
+                    if(gameState.keys.D.isDown){
+                        gameState.hero.setVelocityX(170);
+                        gameState.hero.flipX = false;
+                        if(gameState.jumping === false){
+                            gameState.hero.anims.play('pyrorun',true);
+                        }
+                    }
+                    else if (gameState.keys.A.isDown){
+                        gameState.hero.setVelocityX(-170);
+                        gameState.hero.flipX = true;
+                        if(gameState.jumping === false){
+                            gameState.hero.anims.play('pyrorun',true);
+                        }
+                    }
+                    else if (gameState.hero.body.touching.down){
+                        gameState.hero.setVelocityX(0);
+                    }
+                    if(gameState.hero.body.velocity.x === 0 && gameState.hero.body.velocity.y === 0 && gameState.weaponselect === 1){
+                        gameState.hero.anims.play('pyroidle',true);
+                    }
+                    if (!gameState.hero.body.touching.down){
+                        gameState.hero.anims.play('pyrojump',true);
+                    }
+                    else{
+                        gameState.jumping = false;
+                    }
+                }
+                else {
+                    if(gameState.mouse.isDown && gameState.secondaryammo > 0 && gameState.heroprimarycooldown <= 0 && gameState.reloading === false){
+                        shotgun_shoot.play();
+                        gameState.heroprimarycooldown = 30;
+                        gameState.rando = Math.ceil(Math.random()*2);
+                        gameState.secondaryammo -= 1;
+                        for (var i = 0; i < 5; i++){
+                            gameState.heroprimaryammo = scene.physics.add.sprite(gameState.hero.x,gameState.hero.y,'bullet').setGravityY(-1000);
+                            scene.physics.moveTo(gameState.heroprimaryammo,gameState.input.x + Math.ceil(Math.random()*70), gameState.input.y+ Math.ceil(Math.random()*70),1000); gameState.angle=Phaser.Math.Angle.Between(gameState.heroprimaryammo.x,gameState.heroprimaryammo.y,gameState.input.x,gameState.input.
+                            y);
+                            gameState.heroprimaryammo.setRotation(gameState.angle);
+                            scene.physics.add.overlap(gameState.heroprimaryammo, gameState.invisibleplatform,(ammo,platform)=>{
+                                ammo.destroy();
+                            });
+                        }
+                        for (var i = 0; i < 5; i++){
+                            gameState.heroprimaryammo = scene.physics.add.sprite(gameState.hero.x,gameState.hero.y,'bullet').setGravityY(-1000);
+                            scene.physics.moveTo(gameState.heroprimaryammo,gameState.input.x + Math.ceil(Math.random()*70), gameState.input.y- Math.ceil(Math.random()*70),1000); gameState.angle=Phaser.Math.Angle.Between(gameState.heroprimaryammo.x,gameState.heroprimaryammo.y,gameState.input.x,gameState.input.
+                            y);
+                            gameState.heroprimaryammo.setRotation(gameState.angle);
+                            scene.physics.add.overlap(gameState.heroprimaryammo, gameState.invisibleplatform,(ammo,platform)=>{
+                                ammo.destroy();
+                            });
+                        }
+                    }
+                    if(gameState.keys.R.isDown && gameState.shooting === false && gameState.secondaryammo <= 0 && gameState.reloading === false){
+                        gameState.reloading = true;
+                        scene.time.addEvent({
+                            delay: 500,
+                            callback: ()=>{
+                                shotgun_reload.play();
+                                gameState.secondaryammo += 1;
+                            },  
+                            startAt: 0,
+                            timeScale: 1,
+                            repeat: 5
+                        }); 
+                        scene.time.addEvent({
+                            delay: 3500,
+                            callback: ()=>{
+                                gameState.reloading = false;
+                            },  
+                            startAt: 0,
+                            timeScale: 1
+                        }); 
+                    }
+                    if(gameState.keys.W.isDown && gameState.hero.body.touching.down && gameState.shooting === false){
+                        gameState.jumping = true;
+                        gameState.hero.setVelocityY(-350);
+                    }
+                    if(gameState.keys.D.isDown){
+                        gameState.hero.setVelocityX(170);
+                        gameState.hero.flipX = false;
+                        if(gameState.jumping === false){
+                            gameState.hero.anims.play('pyrorun2',true);
+                        }
+                    }
+                    else if (gameState.keys.A.isDown){
+                        gameState.hero.setVelocityX(-170);
+                        gameState.hero.flipX = true;
+                        if(gameState.jumping === false){
+                            gameState.hero.anims.play('pyrorun2',true);
+                        }
+                    }
+                    else if (gameState.hero.body.touching.down){
+                        gameState.hero.setVelocityX(0);
+                    }
+                    if(gameState.hero.body.velocity.x === 0 && gameState.hero.body.velocity.y === 0){
+                        gameState.hero.anims.play('pyroidle2',true);
+                    }
+                    if (!gameState.hero.body.touching.down){
+                        gameState.hero.anims.play('pyrojump2',true);
+                    }
+                    else{
+                        gameState.jumping = false;
                     }
                 }
             }
